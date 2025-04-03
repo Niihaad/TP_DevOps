@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Traduction</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            text-align: center;
+            padding: 40px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .word-container {
+            font-size: 28px;
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .response-container {
+            margin: 20px 0;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            width: 250px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+            animation: applause 1s ease-out forwards;
+        }
+
+        .failure {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Animation for applause */
+        @keyframes applause {
+            0% { transform: scale(1); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Jeu de Traduction Français → Anglais</h1>
+        <div class="word-container">
+            <p>Traduisez le mot suivant:</p>
+            <h2 id="word"></h2>
+        </div>
+        <div class="response-container">
+            <input type="text" id="userAnswer" placeholder="Votre traduction...">
+            <button onclick="checkAnswer()">Vérifier</button>
+        </div>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const dictionary = {
+            "chat": "cat",
+            "chien": "dog",
+            "voiture": "car",
+            "maison": "house",
+            "arbre": "tree",
+            "école": "school",
+            "livre": "book",
+            "table": "table",
+            "chaise": "chair",
+            "porte": "door",
+            "fenêtre": "window",
+            "plage": "beach",
+            "montagne": "mountain",
+            "rue": "street",
+            "fleur": "flower",
+            "soleil": "sun",
+            "lune": "moon",
+            "mer": "sea",
+            "ordinateur": "computer",
+            "téléphone": "phone"
+        };
+
+        let currentWord = getRandomWord();
+
+        function getRandomWord() {
+            const words = Object.keys(dictionary);
+            const randomIndex = Math.floor(Math.random() * words.length);
+            return words[randomIndex];
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("userAnswer").value.toLowerCase().trim();
+            const correctAnswer = dictionary[currentWord];
+
+            if (userAnswer === correctAnswer) {
+                document.getElementById("message").innerHTML = "<span class='success'>Bravo! Vous avez réussi! 👏</span>";
+                setTimeout(nextWord, 2000); // Attendre 2 secondes avant de passer au mot suivant
+            } else {
+                document.getElementById("message").innerHTML = "<span class='failure'>Désolé, ce n'est pas correct. Essayez encore !</span>";
+                document.getElementById("userAnswer").value = ''; // Réinitialiser la réponse de l'utilisateur
+            }
+        }
+
+        function nextWord() {
+            currentWord = getRandomWord();
+            document.getElementById("word").textContent = currentWord;
+            document.getElementById("message").innerHTML = '';
+            document.getElementById("userAnswer").value = ''; // Réinitialiser le champ de texte
+        }
+
+        // Afficher le premier mot au démarrage
+        document.getElementById("word").textContent = currentWord;
+
+    </script>
+
+</body>
+</html>

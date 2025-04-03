@@ -1,0 +1,22 @@
+# Ignorer les fichiers de l'éditeur de code
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignorer les fichiers de système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Ignorer les dépendances (si jamais tu ajoutes un package manager comme npm)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Ignorer les fichiers de build (si jamais tu ajoutes un bundler)
+dist/
+build/
+
+# Ignorer les fichiers temporaires
+*.log
+npm-debug.log*
