@@ -8,6 +8,12 @@ on:
 
 permissions:
   contents: write  
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -37,8 +43,8 @@ jobs:
       # Étape 5: Vérifier que index.html est présent
       - name: Vérifier que index.html est présent
         run: test -f public/index.html && echo "Le fichier index.html est présent." || (echo "Fichier manquant !" && exit 1)
-   
-    # Étape 6: Création de tag Git
+
+      # Étape 6: Création de tag Git
       - name: Création de tag Git
         if: github.ref == 'refs/heads/master'
         run: |
@@ -48,16 +54,25 @@ jobs:
           git push origin $TAG
           echo "Tag $TAG créé et poussé !"
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-and-deploy  # Assure-toi que cette étape est exécutée après la build
 
-      # Étape 7: Déploiement sur GitHub Pages
-      - name: Déploiement sur GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: gh-pages 
-          allow_empty_commit: false  
-          force_orphan: true  
-          disable_nojekyll: true 
+          path: './public'  
 
-      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
