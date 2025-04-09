@@ -36,6 +36,12 @@ Ce projet est un jeu interactif où l'utilisateur doit traduire des mots du fran
 
 ---
 
+Déploiement
+
+Le projet a été déployé avec succès sur GitHub Pages. Vous pouvez tester le jeu en cliquant sur le lien suivant :
+
+(https://niihaad.github.io/TP_DevOps/)
+
  Développé par **NIHAD ELBARI**  
 
 
