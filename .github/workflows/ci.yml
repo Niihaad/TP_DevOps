@@ -37,19 +37,23 @@ jobs:
       # Étape 5: Vérifier que index.html est présent
       - name: Vérifier que index.html est présent
         run: test -f public/index.html && echo "Le fichier index.html est présent." || (echo "Fichier manquant !" && exit 1)
+   
+    # Étape 6: Création de tag Git
+      - name: Création de tag Git
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git status
+          TAG="v1.0.${{ github.run_number }}"
+          git tag $TAG
+          git push origin $TAG
+          echo "Tag $TAG créé et poussé !"
 
-      # Étape 6: Déploiement sur GitHub Pages
+
+      # Étape 7: Déploiement sur GitHub Pages
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: . 
 
-      # Étape 7: Création de tag Git
-      - name: Création de tag Git
-        if: github.ref == 'refs/heads/master'
-        run: |
-          TAG="v1.0.${{ github.run_number }}"
-          git tag $TAG
-          git push origin $TAG
-          echo "Tag $TAG créé et poussé !"
+      
