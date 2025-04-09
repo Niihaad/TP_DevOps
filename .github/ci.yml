@@ -1,0 +1,43 @@
+name: CI - Jeu de Traduction
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Étape Build (simulée)
+        run: echo " Simulation de la compilation... (rien à compiler pour HTML)"
+
+      - name: Vérifier que index.html est présent
+        run: test -f index.html && echo "Le fichier index.html est présent." || (echo " Fichier manquant !" && exit 1)
+
+      - name: Tests unitaires (simulés)
+        run: echo " Aucun test unitaire dans ce projet — étape simulée"
+
+      - name: 🧹 Linting (simulé)
+        run: echo " Linting simulé — Pas de linter configuré"
+
+      - name: Déploiement sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .  # Le contenu HTML/JS/CSS est à la racine
+
+      - name:  Création de tag Git (simulé)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          TAG="v1.0.${{ github.run_number }}"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git tag $TAG
+          git push origin $TAG
+          echo " Tag $TAG créé et poussé !"
