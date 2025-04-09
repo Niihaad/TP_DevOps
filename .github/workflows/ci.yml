@@ -3,7 +3,7 @@ name: CI - Jeu de Traduction
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
