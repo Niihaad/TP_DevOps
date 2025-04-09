@@ -5,9 +5,6 @@ on:
     branches:
       - master
   pull_request:
-  
-permissions:
-  contents: write
 
 jobs:
   build-and-deploy:
@@ -17,30 +14,27 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v3
 
+      - name: Configurer Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Étape Build (simulée)
         run: echo " Simulation de la compilation... (rien à compiler pour HTML)"
 
       - name: Vérifier que index.html est présent
-        run: test -f public/index.html && echo "Le fichier index.html est présent." || (echo " Fichier manquant !" && exit 1)
-
-      - name: Tests unitaires (simulés)
-        run: echo " Aucun test unitaire dans ce projet — étape simulée"
-
-      - name: 🧹 Linting (simulé)
-        run: echo " Linting simulé — Pas de linter configuré"
+        run: test -f index.html && echo "Le fichier index.html est présent." || (echo " Fichier manquant !" && exit 1)
 
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .  # Le contenu HTML/JS/CSS est à la racine
+          publish_dir: . 
 
-      - name:  Création de tag Git (simulé)
+      - name: Création de tag Git
         if: github.ref == 'refs/heads/master'
         run: |
           TAG="v1.0.${{ github.run_number }}"
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
           git tag $TAG
           git push origin $TAG
-          echo " Tag $TAG créé et poussé !"
+          echo "Tag $TAG créé et poussé !"
