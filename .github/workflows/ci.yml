@@ -16,7 +16,7 @@ jobs:
     steps:
       # Étape 1: Checkout du code
       - name: Checkout du code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Étape 2: Vérifier le statut Git
       - name: Vérifier le statut Git
@@ -51,7 +51,7 @@ jobs:
 
       # Étape 7: Déploiement sur GitHub Pages
       - name: Déploiement sur GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
