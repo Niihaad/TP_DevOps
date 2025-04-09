@@ -33,7 +33,7 @@ jobs:
           publish_dir: .  # Le contenu HTML/JS/CSS est à la racine
 
       - name:  Création de tag Git (simulé)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           TAG="v1.0.${{ github.run_number }}"
           git config user.name "${{ github.actor }}"
