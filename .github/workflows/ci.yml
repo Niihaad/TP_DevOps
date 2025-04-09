@@ -23,7 +23,7 @@ jobs:
         run: echo " Simulation de la compilation... (rien à compiler pour HTML)"
 
       - name: Vérifier que index.html est présent
-        run: test -f index.html && echo "Le fichier index.html est présent." || (echo " Fichier manquant !" && exit 1)
+        run: test -f public/index.html && echo "Le fichier index.html est présent." || (echo " Fichier manquant !" && exit 1)
 
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
