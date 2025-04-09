@@ -59,7 +59,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-and-deploy  # Assure-toi que cette étape est exécutée après la build
+    needs: build-and-deploy  # On doit etre sur que cette étape est bien avnt le déploiment
 
     steps:
       - name: Checkout
