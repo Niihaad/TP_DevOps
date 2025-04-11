@@ -82,6 +82,35 @@ Résultat
 À la fin du pipeline, le site est mis à jour automatiquement et accessible à l’adresse suivante :
 https://niihad.github.io/TP_DevOps/
 ---
+
+**Utilisation avec Docker**
+
+Une image Docker peut être utilisée pour déployer le jeu localement via un serveur web léger (nginx). 
+Création de l'image Docker : Pour créer l'image Docker de notre projet, nous devons d'abord créer un fichier nommé Dockerfile dans le répertoire principal du projet avec le contenu suivant :
+     
+     # Utilisation d' une image légère de nginx
+     FROM nginx:alpine
+     
+     # Copie tous les fichiers du projet (index.html) dans le dossier par défaut de nginx
+     COPY . /usr/share/nginx/html
+     
+     # Expose le port 80 pour que Nginx serve l'application
+     EXPOSE 80
+
+Construction de l'image Docker : Une fois le fichier Dockerfile créé, on doit ouvrir un terminal dans le répertoire du projet et on va exécuter la commande suivante pour construire l'image Docker :
+
+    docker build -t mon-image-nginx .
+    
+Cette commande crée une image Docker avec le nom mon-image-nginx à partir du Dockerfile.
+
+Lancement du conteneur Docker : Après avoir créé l'image, nous pouvons lancer un conteneur Docker pour exécuter notre projet avec la commande suivante :
+    
+      docker run -d -p 8080:80 mon-image-nginx
+
+Cela va lancer le conteneur en arrière-plan et mapper le port 80 du conteneur au port 8080 de notre machine locale. Nous pouvons accéder à notre application via l'URL http://localhost:8080.
+     
+
+---
 Déploiement
 
 Le projet a été déployé avec succès sur GitHub Pages. Vous pouvez tester le jeu en cliquant sur le lien suivant :
